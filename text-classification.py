@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, classification_report
@@ -27,7 +27,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 model = Pipeline([
     ("tfidf", TfidfVectorizer(stop_words="english")),
-    ("classifier", MultinomialNB())
+    ("classifier", LogisticRegression(max_iter=1000))
 ])
 
 model.fit(X_train, y_train)
@@ -43,7 +43,7 @@ print(classification_report(
     zero_division=0
 ))
 
-new_text = ["Thank you for subscription"]
+new_text = ["The service was very bad"]
 prediction = model.predict(new_text)
 
 predicted_label = label_encoder.inverse_transform(prediction)
